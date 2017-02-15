@@ -13,8 +13,11 @@ update message model =
         NoOp ->
             ( model, Cmd.none )
 
-        FetchAll (Ok data) ->
+        UpdateForecast ->
+            ( model, Cmd.none )
+
+        FetchForecast (Ok data) ->
             ( { model | forecast = Just data }, Cmd.none )
 
-        FetchAll (Err error) ->
+        FetchForecast (Err error) ->
             ( model, Cmd.none )

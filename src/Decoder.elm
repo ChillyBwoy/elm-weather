@@ -1,37 +1,39 @@
 module Decoder exposing (..)
 
-import Json.Decode as Decode
+import Json.Decode as Decode exposing (Decoder, field, int, string, float, maybe)
 import Models exposing (DataPoint, DataBlock, Forecast)
 
 
-decodeDataPoint : Decode.Decoder DataPoint
+decodeDataPoint : Decoder DataPoint
 decodeDataPoint =
-    Decode.map4 DataPoint
-        (Decode.field "icon" Decode.string)
-        (Decode.field "time" Decode.int)
-        (Decode.field "summary" Decode.string)
-        (Decode.field "temperature" Decode.float)
+    Decode.map6 DataPoint
+        (field "icon" string)
+        (field "time" int)
+        (field "summary" string)
+        (maybe (field "temperature" float))
+        (maybe (field "temperatureMax" float))
+        (maybe (field "temperatureMin" float))
 
 
-decodeDataPointList : Decode.Decoder (List DataPoint)
+decodeDataPointList : Decoder (List DataPoint)
 decodeDataPointList =
     Decode.list decodeDataPoint
 
 
-decodeDataBlock : Decode.Decoder DataBlock
+decodeDataBlock : Decoder DataBlock
 decodeDataBlock =
     Decode.map3 DataBlock
-        (Decode.field "icon" Decode.string)
-        (Decode.field "summary" Decode.string)
-        (Decode.field "data" decodeDataPointList)
+        (field "icon" string)
+        (field "summary" string)
+        (field "data" decodeDataPointList)
 
 
-decodeForecast : Decode.Decoder Forecast
+decodeForecast : Decoder Forecast
 decodeForecast =
     Decode.map6 Forecast
-        (Decode.field "daily" decodeDataBlock)
-        (Decode.field "hourly" decodeDataBlock)
-        (Decode.field "currently" decodeDataPoint)
-        (Decode.field "timezone" Decode.string)
-        (Decode.field "latitude" Decode.float)
-        (Decode.field "longitude" Decode.float)
+        (field "daily" decodeDataBlock)
+        (field "hourly" decodeDataBlock)
+        (field "currently" decodeDataPoint)
+        (field "timezone" string)
+        (field "latitude" float)
+        (field "longitude" float)

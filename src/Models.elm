@@ -24,7 +24,9 @@ type alias DataPoint =
     { icon : String
     , time : Int
     , summary : String
-    , temperature : Float
+    , temperature : Maybe Float
+    , temperatureMax : Maybe Float
+    , temperatureMin : Maybe Float
     }
 
 

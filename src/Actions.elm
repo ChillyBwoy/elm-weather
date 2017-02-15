@@ -2,7 +2,11 @@ module Actions exposing (..)
 
 import Http
 import Messages exposing (..)
-import Models exposing (Forecast)
+import Models exposing (Lang, langToString)
+
+
+-- import Models exposing (Forecast)
+
 import Decoder exposing (decodeForecast)
 
 
@@ -21,31 +25,15 @@ queryArgs args =
     String.join "&" (List.map queryPair args)
 
 
-apiUrl : String
-apiUrl =
-    "https://api.darksky.net/forecast/"
+apiUrl : Lang -> String
+apiUrl lang =
+    "http://localhost:8001/api/forecast/"
         ++ darkSkyVerySecretKey
         ++ "/55.7558,37.6173/?"
-        ++ queryArgs [ ( "lang", "ru" ), ( "units", "si" ) ]
-
-
-getCORS : String -> Http.Request Forecast
-getCORS url =
-    Http.request
-        { method = "GET"
-        , headers =
-            [ Http.header "Access-Control-Request-Method" "GET"
-            , Http.header "Access-Control-Request-Headers" "X-Custom-Header"
-            ]
-        , url = url
-        , body = Http.emptyBody
-        , expect = Http.expectJson decodeForecast
-        , timeout = Nothing
-        , withCredentials = False
-        }
+        ++ queryArgs [ ( "lang", langToString lang ), ( "units", "si" ) ]
 
 
 fetchAll : Cmd Msg
 fetchAll =
-    Http.send FetchAll <|
-        getCORS apiUrl
+    Http.send FetchForecast <|
+        Http.get (apiUrl Models.Ru) decodeForecast
