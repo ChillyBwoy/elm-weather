@@ -1,9 +1,9 @@
 module Messages exposing (..)
 
 import Http
-import Models exposing (Model)
+import Models exposing (Forecast)
 
 
 type Msg
     = NoOp
-    | FetchAll (Result Http.Error Model)
+    | FetchAll (Result Http.Error Forecast)

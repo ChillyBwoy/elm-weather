@@ -4,7 +4,7 @@
   "description": "- fetch weather cast for 1 week - show loading status white fetching - make search by city - build interface for weather cast",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/.bin/webpack-dev-server"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "css-loader": "^0.26.1",
     "elm-webpack-loader": "^4.2.0",
     "file-loader": "^0.10.0",
+    "http-proxy-middleware": "^0.17.3",
     "skycons": "^1.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
