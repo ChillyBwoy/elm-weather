@@ -2,6 +2,7 @@ module Actions exposing (..)
 
 import Http
 import Messages exposing (..)
+import Models exposing (Forecast)
 import Decoder exposing (decodeForecast)
 
 
@@ -28,7 +29,23 @@ apiUrl =
         ++ queryArgs [ ( "lang", "ru" ), ( "units", "si" ) ]
 
 
+getCORS : String -> Http.Request Forecast
+getCORS url =
+    Http.request
+        { method = "GET"
+        , headers =
+            [ Http.header "Access-Control-Request-Method" "GET"
+            , Http.header "Access-Control-Request-Headers" "X-Custom-Header"
+            ]
+        , url = url
+        , body = Http.emptyBody
+        , expect = Http.expectJson decodeForecast
+        , timeout = Nothing
+        , withCredentials = False
+        }
+
+
 fetchAll : Cmd Msg
 fetchAll =
-    Http.get apiUrl decodeForecast
-        |> Http.send FetchAll
+    Http.send FetchAll <|
+        getCORS apiUrl
