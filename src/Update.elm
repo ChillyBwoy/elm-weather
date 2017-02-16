@@ -22,3 +22,6 @@ update message model =
 
         FetchForecast (Err error) ->
             ( model, Cmd.none )
+
+        ChangeLocation value ->
+            ( model, Cmd.none )
