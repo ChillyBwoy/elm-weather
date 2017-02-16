@@ -3,8 +3,16 @@ module View exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
-import Models exposing (Model, Forecast, DataPoint, Location)
+import Models exposing (Model, Lang, Forecast, DataPoint, Location, langToString)
 import Messages exposing (Msg(..))
+
+
+langView : List Lang -> Lang -> Html Msg
+langView langList current =
+    div []
+        [ select [ onInput ChangeLang ]
+            (List.map (\l -> option [ selected (l == current) ] [ text (langToString l) ]) langList)
+        ]
 
 
 locationView : Location -> Html Msg
@@ -21,40 +29,33 @@ locationView ( latitude, longitude ) =
 
 dataPointView : DataPoint -> Html Msg
 dataPointView data =
-    li []
-        [ div []
-            [ text data.summary
+    let
+        spanWrap el =
+            case el of
+                Just x ->
+                    span [] [ text (toString x) ]
+
+                Nothing ->
+                    text ""
+    in
+        div []
+            [ span [] [ text data.icon ]
+            , spanWrap data.temperatureMin
+            , spanWrap data.temperature
+            , spanWrap data.temperatureMax
             ]
-        , div []
-            [ case data.temperatureMin of
-                Just t ->
-                    span [] [ text (toString t) ]
 
-                Nothing ->
-                    text ""
-            , case data.temperature of
-                Just t ->
-                    span [] [ text (toString t) ]
 
-                Nothing ->
-                    text ""
-            , case data.temperatureMax of
-                Just t ->
-                    span [] [ text (toString t) ]
-
-                Nothing ->
-                    text ""
-            ]
+dataPointListView : String -> List DataPoint -> Html Msg
+dataPointListView label dataList =
+    div []
+        [ h3 [] [ text label ]
+        , ul [] (List.map (\x -> dataPointView x) dataList)
         ]
 
 
-dataPointListView : List DataPoint -> Html Msg
-dataPointListView dataList =
-    ul [] (List.map dataPointView dataList)
-
-
-mainView : Forecast -> Html Msg
-mainView forecast =
+forecastView : Forecast -> Html Msg
+forecastView forecast =
     let
         currently =
             forecast.currently
@@ -66,29 +67,23 @@ mainView forecast =
             forecast.daily
     in
         div []
-            [ h2 [] [ text currently.summary ]
-            , locationView ( forecast.latitude, forecast.longitude )
-            , case currently.temperature of
-                Just t ->
-                    div [] [ text (toString t) ]
-
-                Nothing ->
-                    text ""
-            , dataPointListView hourly.data
+            [ dataPointView currently
+            , dataPointListView "Hourly" hourly.data
+            , dataPointListView "Daily" daily.data
             ]
 
 
 view : Model -> Html Msg
 view model =
-    let
-        forecast =
-            model.forecast
-    in
-        case forecast of
-            Just forecast ->
+    div []
+        [ langView [ Models.Ru, Models.En, Models.Es ] model.lang
+        , locationView model.location
+        , case model.forecast of
+            Just x ->
                 div []
-                    [ mainView forecast
+                    [ forecastView x
                     ]
 
             Nothing ->
                 text ""
+        ]

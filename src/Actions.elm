@@ -33,5 +33,5 @@ apiUrl lang location =
 
 fetchAll : Lang -> Location -> Cmd Msg
 fetchAll lang location =
-    Http.send FetchForecast <|
-        Http.get (apiUrl lang location) forecast
+    Http.get (apiUrl lang location) forecast
+        |> Http.send FetchForecast

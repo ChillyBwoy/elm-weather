@@ -1,7 +1,8 @@
 const proxy = require('express-http-proxy');
 const url = require('url');
-
 const express = require('express');
+
+const payload = require('./mock.json');
 
 const app = express();
 
@@ -21,6 +22,15 @@ app.use('/api', proxy('api.darksky.net', {
     callback(null, json);
   }
 }));
+
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   next();
+// });
+//
+// app.get('/api/:location/', (req, res) => {
+//   res.json(payload);
+// })
 
 app.listen(8001, () => {
 });

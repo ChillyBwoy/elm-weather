@@ -5,7 +5,8 @@ import Models exposing (Forecast, Location)
 
 
 type Msg
-    = NoOp
+    = Idle
     | UpdateForecast
     | FetchForecast (Result Http.Error Forecast)
     | ChangeLocation String
+    | ChangeLang String
