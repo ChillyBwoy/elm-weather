@@ -1,11 +1,18 @@
 const proxy = require('express-http-proxy');
+const url = require('url');
 
-const app = require('express')();
+const express = require('express');
 
-app.use('/api', proxy('api.darksky.net/', {
+const app = express();
+
+const DARK_SKY_VERY_SECRET_KEY = '43fcd9de44b4f0ba861d03d7103e2f72';
+const PREFIX = `/forecast/${DARK_SKY_VERY_SECRET_KEY}`;
+
+app.use('/api', proxy('api.darksky.net', {
   https: true,
   forwardPath(req, res) {
-    return require('url').parse(req.url).path;
+    const parsed = url.parse(req.url);
+    return `${PREFIX}${parsed.path}`;
   },
   intercept(rsp, data, req, res, callback) {
     res.header('Access-Control-Allow-Origin' , '*');

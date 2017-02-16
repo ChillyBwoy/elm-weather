@@ -9,7 +9,8 @@ import Models exposing (..)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
-    case Debug.log "MSG: " message of
+    -- case Debug.log "MSG: " message of
+    case message of
         NoOp ->
             ( model, Cmd.none )
 

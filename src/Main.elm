@@ -10,7 +10,11 @@ import Actions exposing (fetchAll)
 
 init : ( Model, Cmd Msg )
 init =
-    ( initModel, fetchAll )
+    let
+        model =
+            initModel
+    in
+        ( model, fetchAll model.lang model.location )
 
 
 subscriptions : Model -> Sub Msg

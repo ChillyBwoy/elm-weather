@@ -12,3 +12,13 @@ https://api.darksky.net/forecast/43fcd9de44b4f0ba861d03d7103e2f72/55.7558,37.617
 ## References
 
 http://academy.plot.ly/react/1-introduction/
+
+
+## Mockup
+```
+
+|-----------|
+|           |
+|-----------|
+
+```

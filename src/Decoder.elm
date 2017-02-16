@@ -4,8 +4,8 @@ import Json.Decode as Decode exposing (Decoder, field, int, string, float, maybe
 import Models exposing (DataPoint, DataBlock, Forecast)
 
 
-decodeDataPoint : Decoder DataPoint
-decodeDataPoint =
+dataPoint : Decoder DataPoint
+dataPoint =
     Decode.map6 DataPoint
         (field "icon" string)
         (field "time" int)
@@ -15,25 +15,25 @@ decodeDataPoint =
         (maybe (field "temperatureMin" float))
 
 
-decodeDataPointList : Decoder (List DataPoint)
-decodeDataPointList =
-    Decode.list decodeDataPoint
+dataPointList : Decoder (List DataPoint)
+dataPointList =
+    Decode.list dataPoint
 
 
-decodeDataBlock : Decoder DataBlock
-decodeDataBlock =
+dataBlock : Decoder DataBlock
+dataBlock =
     Decode.map3 DataBlock
         (field "icon" string)
         (field "summary" string)
-        (field "data" decodeDataPointList)
+        (field "data" dataPointList)
 
 
-decodeForecast : Decoder Forecast
-decodeForecast =
+forecast : Decoder Forecast
+forecast =
     Decode.map6 Forecast
-        (field "daily" decodeDataBlock)
-        (field "hourly" decodeDataBlock)
-        (field "currently" decodeDataPoint)
+        (field "daily" dataBlock)
+        (field "hourly" dataBlock)
+        (field "currently" dataPoint)
         (field "timezone" string)
         (field "latitude" float)
         (field "longitude" float)
