@@ -14,7 +14,8 @@ init =
         model =
             initModel
     in
-        ( model, fetchAll model.lang model.location )
+        -- ( model, fetchAll model.lang model.location )
+        ( model, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg

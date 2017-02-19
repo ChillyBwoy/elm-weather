@@ -3,7 +3,7 @@ module View exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
-import Models exposing (Model, Lang, Forecast, DataPoint, Location, langToString)
+import Models exposing (Model, Lang, Forecast, DataPoint, Coords, langToString)
 import Messages exposing (Msg(..))
 
 
@@ -15,14 +15,24 @@ langView langList current =
         ]
 
 
-locationView : Location -> Html Msg
-locationView ( latitude, longitude ) =
+coordsView : Coords -> Html Msg
+coordsView ( latitude, longitude ) =
     div []
         [ div []
-            [ input [ placeholder "latitude", onInput (ChangeLocation), value (toString latitude) ] []
+            [ input
+                [ placeholder "latitude"
+                , onInput (ChangeLocation)
+                , value (toString latitude)
+                ]
+                []
             ]
         , div []
-            [ input [ placeholder "longitude", onInput (ChangeLocation), value (toString longitude) ] []
+            [ input
+                [ placeholder "longitude"
+                , onInput (ChangeLocation)
+                , value (toString longitude)
+                ]
+                []
             ]
         ]
 
@@ -75,15 +85,17 @@ forecastView forecast =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ langView [ Models.Ru, Models.En, Models.Es ] model.lang
-        , locationView model.location
-        , case model.forecast of
-            Just x ->
-                div []
-                    [ forecastView x
-                    ]
+    let
+        langList =
+            [ Models.Ru, Models.En, Models.Es ]
+    in
+        div []
+            [ langView langList model.lang
+            , coordsView model.location.coords
+            , case model.forecast of
+                Just x ->
+                    div [] [ forecastView x ]
 
-            Nothing ->
-                text ""
-        ]
+                Nothing ->
+                    text ""
+            ]

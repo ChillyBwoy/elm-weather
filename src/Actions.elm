@@ -2,7 +2,7 @@ module Actions exposing (..)
 
 import Http
 import Messages exposing (..)
-import Models exposing (Lang, Location, langToString, locationToString)
+import Models exposing (Lang, Location, langToString, coordsToString)
 import Decoder exposing (forecast)
 
 
@@ -26,7 +26,7 @@ apiUrl lang location =
                 ]
     in
         "http://localhost:8001/api/"
-            ++ locationToString location
+            ++ coordsToString location.coords
             ++ "/?"
             ++ args
 

@@ -7,8 +7,14 @@ type Lang
     | Es
 
 
-type alias Location =
+type alias Coords =
     ( Float, Float )
+
+
+type alias Location =
+    { coords : Coords
+    , city : String
+    }
 
 
 type alias DataPoint =
@@ -45,8 +51,8 @@ type alias Model =
     }
 
 
-locationToString : Location -> String
-locationToString ( latitude, longitude ) =
+coordsToString : Coords -> String
+coordsToString ( latitude, longitude ) =
     toString latitude ++ "," ++ toString longitude
 
 
@@ -67,5 +73,8 @@ initModel : Model
 initModel =
     { forecast = Nothing
     , lang = Ru
-    , location = ( 55.7558, 37.6173 )
+    , location =
+        { coords = ( 55.7558, 37.6173 )
+        , city = "Moscow"
+        }
     }

@@ -5,9 +5,6 @@ import Models exposing (..)
 import Actions exposing (fetchAll)
 
 
--- import Debug
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case Debug.log "MSG" message of
