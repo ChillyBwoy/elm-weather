@@ -91,7 +91,7 @@ view model =
     in
         div []
             [ langView langList model.lang
-            , coordsView model.location.coords
+            , coordsView model.city.coords
             , case model.forecast of
                 Just x ->
                     div [] [ forecastView x ]

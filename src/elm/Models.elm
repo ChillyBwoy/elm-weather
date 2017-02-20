@@ -11,9 +11,9 @@ type alias Coords =
     ( Float, Float )
 
 
-type alias Location =
-    { coords : Coords
-    , city : String
+type alias City =
+    { name : String
+    , coords : Coords
     }
 
 
@@ -46,7 +46,7 @@ type alias Forecast =
 
 type alias Model =
     { forecast : Maybe Forecast
-    , location : Location
+    , city : City
     , lang : Lang
     }
 
@@ -73,8 +73,8 @@ initModel : Model
 initModel =
     { forecast = Nothing
     , lang = Ru
-    , location =
+    , city =
         { coords = ( 55.7558, 37.6173 )
-        , city = "Moscow"
+        , name = "Moscow"
         }
     }

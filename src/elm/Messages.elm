@@ -1,7 +1,7 @@
 module Messages exposing (..)
 
 import Http
-import Models exposing (Forecast, Location)
+import Models exposing (Forecast)
 
 
 type Msg

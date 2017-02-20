@@ -2,7 +2,7 @@ module Actions exposing (..)
 
 import Http
 import Messages exposing (..)
-import Models exposing (Lang, Location, langToString, coordsToString)
+import Models exposing (Lang, Coords, langToString, coordsToString)
 import Decoder exposing (forecast)
 
 
@@ -16,8 +16,8 @@ queryArgs args =
     String.join "&" (List.map queryPair args)
 
 
-apiUrl : Lang -> Location -> String
-apiUrl lang location =
+apiUrl : Lang -> Coords -> String
+apiUrl lang coords =
     let
         args =
             queryArgs
@@ -26,12 +26,12 @@ apiUrl lang location =
                 ]
     in
         "http://localhost:8001/api/"
-            ++ coordsToString location.coords
+            ++ coordsToString coords
             ++ "/?"
             ++ args
 
 
-fetchAll : Lang -> Location -> Cmd Msg
-fetchAll lang location =
-    Http.get (apiUrl lang location) forecast
+fetchAll : Lang -> Coords -> Cmd Msg
+fetchAll lang coords =
+    Http.get (apiUrl lang coords) forecast
         |> Http.send FetchForecast

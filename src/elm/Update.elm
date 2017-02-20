@@ -13,7 +13,7 @@ update message model =
             ( model, Cmd.none )
 
         UpdateForecast ->
-            ( model, fetchAll model.lang model.location )
+            ( model, fetchAll model.lang model.city.coords )
 
         FetchForecast (Ok data) ->
             ( { model | forecast = Just data }, Cmd.none )

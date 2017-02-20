@@ -28,6 +28,13 @@ module.exports = {
             loader: 'file-loader?name=[name].[ext]'
           }
         ]
+      }, {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader?importLoaders=1',
+          'postcss-loader'
+        ]
       }
     ]
   },
